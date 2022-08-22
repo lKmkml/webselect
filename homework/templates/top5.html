@@ -9,6 +9,15 @@
     enctype = "multipart/form-data">
          <input type = "submit"/>
     </form>
+    <a>
+        BOW
+    </a>
+    {% for row in msgtopbow %} 
+    <pre>{{row}}</pre>
+    {% endfor %}
+    <br><a>
+        TF-IDF
+    </a>
     {% for row in msgtop %} 
     <pre>{{row}}</pre>
     {% endfor %} 
