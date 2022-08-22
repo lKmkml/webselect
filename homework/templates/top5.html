@@ -1,0 +1,16 @@
+<!doctype html>
+<title>WEB Top 5 BOW and TF-IDF</title>
+<h2>Top 5 BOW and TF-IDF</h2>
+<a href="{{ url_for('upload_form') }}">upload</a>
+<a href="{{ url_for('search_1') }}">search</a>
+<a href="{{ url_for('top5_1') }}">Top 5</a>
+<body>
+    <form action= "/top5_2" method = "POST"
+    enctype = "multipart/form-data">
+         <input type = "submit"/>
+    </form>
+    {% for row in msgtop %} 
+    <pre>{{row}}</pre>
+    {% endfor %} 
+</body>
+</html>

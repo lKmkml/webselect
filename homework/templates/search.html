@@ -1,0 +1,14 @@
+<!doctype html>
+<title>WEB Search A Word</title>
+<h2>Search A Word</h2>
+<a href="{{ url_for('upload_form') }}">upload</a>
+<a href="{{ url_for('search_1') }}">search</a>
+<a href="{{ url_for('top5_1') }}">Top 5</a>
+<br><br>
+<form action= "/search_2" method = "POST"
+    enctype = "multipart/form-data">
+    <input type="text" id="word" name="word" />
+    <p>{{msg}}</p>
+         <input type = "submit"/>
+      </form>
+</form>

@@ -1,0 +1,27 @@
+<!doctype html>
+<title>WEB Upload Text Files</title>
+<h2>Upload Text Files</h2>
+<a href="{{ url_for('upload_form') }}">Upload</a>
+<a href="{{ url_for('search_1') }}">Search</a>
+<a href="{{ url_for('top5_1') }}">Top 5</a>
+<p>
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+		<ul class=flashes>
+		{% for message in messages %}
+		  <li>{{ message }}</li>
+		{% endfor %}
+		</ul>
+	  {% endif %}
+	{% endwith %}
+</p>
+<form method="post" action="/" enctype="multipart/form-data">
+    <dl>
+		<p>
+			<input type="file" name="file" autocomplete="off" required>
+		</p>
+    </dl>
+    <p>
+		<input type="submit" value="Submit">
+	</p>
+</form>
