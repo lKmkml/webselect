@@ -1,12 +1,15 @@
-from fileinput import filename
+import itertools
 import os
-from flask import Flask, flash, request, redirect, render_template
-from werkzeug.utils import secure_filename
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
+from collections import defaultdict
+from fileinput import filename
+
+from flask import Flask, flash, redirect, render_template, request
 from gensim.corpora.dictionary import Dictionary
 from gensim.models.tfidfmodel import TfidfModel
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+from werkzeug.utils import secure_filename
 
 app=Flask(__name__)
 
@@ -111,6 +114,15 @@ def top5_2():
     dictionary = Dictionary(articles)
     corpus = [dictionary.doc2bow(a) for a in articles]
     doc = corpus[0]
+    msgtopbow=[]
+    total_word_count = defaultdict(int)
+    for word_id, word_count in itertools.chain.from_iterable(corpus):
+        total_word_count[word_id] += word_count
+
+    sorted_word_count = sorted(total_word_count.items(), key=lambda w: w[1],reverse=True)
+    for word_id, word_count in sorted_word_count[0:5]:
+        b=(dictionary.get(word_id), word_count)
+        msgtopbow.append(b)
     tfidf = TfidfModel(corpus)
     tfidf_weights = tfidf[doc]
     sorted_tfidf_weights = sorted(tfidf_weights, key=lambda w: w[1], reverse=True)
@@ -118,7 +130,7 @@ def top5_2():
     for term_id, weight in sorted_tfidf_weights[:5]:
         a = dictionary.get(term_id), weight
         msgtop.append(a)
-    return render_template('top5.html', msgtop = msgtop)
+    return render_template('top5.html', msgtop = msgtop,msgtopbow=msgtopbow)
 
 if __name__ == "__main__":
     app.run(host = '127.0.0.1',port = 5000, debug = True)
